@@ -1,0 +1,24 @@
+{
+    "name": "benhall14/php-pagination",
+    "description": "A lightweight PHP pagination class to output pagination links.",
+    "homepage": "https://github.com/benhall14/php-pagination",
+    "keywords": ["php",  "pagination", "paginate"],
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Benjamin Hall",
+            "email": "ben@conobe.co.uk",
+            "homepage": "https://conobe.co.uk",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "benhall14\\": "src/"
+        }
+    }
+}
