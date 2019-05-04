@@ -94,7 +94,7 @@ $pagination->pagePrefix(text);
 $pagination->pageSuffix(text);
 
 # sets the flag to retain the query string for each page link.
-$pagination->retrainQueryString();
+$pagination->retainQueryString();
 
 # sets the flag to ignore the query string when building the links
 $pagination->dismissQueryString();
