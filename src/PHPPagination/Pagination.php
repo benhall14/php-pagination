@@ -162,6 +162,13 @@ class Pagination
     protected $retain_query_string = false;
 
     /**
+     * Stores the 'fragment query string flag', used in URL building.
+     *
+     * @var boolean
+     */
+    protected $fragment_query_string = false;
+
+    /**
      * Stores the generated pagination structure.
      *
      * @var string
@@ -469,6 +476,20 @@ class Pagination
     }
 
     /**
+     * Sets the custom fragment used in links.
+     *
+     * @param string $fragment
+     *
+     * @return PHPPagination
+     */
+    public function fragmentQueryString($fragment)
+    {
+        $this->fragment_query_string = $fragment;
+
+        return $this;
+    }
+
+    /**
      * Sets the number of pages before an separator element is created.
      *
      * @param int $pages_before_separator
@@ -553,6 +574,10 @@ class Pagination
             $url_separator = (strpos($url, '?') !== false) ? '&' : '?';
 
             $url .= $url_separator . http_build_query($query_strings);
+        }
+
+        if ($this->fragment_query_string) {
+            $url .= '#'.$this->fragment_query_string;
         }
 
         return $url;
