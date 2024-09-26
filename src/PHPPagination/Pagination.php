@@ -10,6 +10,7 @@ namespace benhall14\PHPPagination;
  * @author Benjamin Hall <ben@conobe.co.uk>
  *
  */
+#[\AllowDynamicProperties]
 class Pagination
 {
     /**
