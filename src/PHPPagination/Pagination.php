@@ -574,6 +574,8 @@ class Pagination
             $url_separator = (strpos($url, '?') !== false) ? '&' : '?';
 
             $url .= $url_separator . http_build_query($query_strings);
+
+            $url = trim($url, '&');
         }
 
         if ($this->fragment_query_string) {
