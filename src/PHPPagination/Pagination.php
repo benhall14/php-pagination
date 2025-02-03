@@ -171,10 +171,10 @@ class Pagination
     /**
      * Stores the generated pagination structure.
      *
-     * @var string
+     * @var array
      */
     protected $pages = null;
-    
+
     /**
      * Constructor class.
      */
@@ -274,7 +274,7 @@ class Pagination
 
         return $this;
     }
-        
+
     /**
      * Sets the Bootstrap 4 alignment class to left.
      *
@@ -307,20 +307,6 @@ class Pagination
     public function alignRight()
     {
         $this->align = 'justify-content-end';
-
-        return $this;
-    }
-
-    /**
-     * Sets the show separator flag to true.
-     * 
-     * Shows the separator blocks.
-     *
-     * @return PHPPagination
-     */
-    public function showSeparator()
-    {
-        $this->show_separator = true;
 
         return $this;
     }
@@ -579,7 +565,7 @@ class Pagination
         }
 
         if ($this->fragment_query_string) {
-            $url .= '#'.$this->fragment_query_string;
+            $url .= '#' . $this->fragment_query_string;
         }
 
         return $url;
@@ -624,9 +610,9 @@ class Pagination
      */
     protected function generate()
     {
-        $this->total_pages = $this->items_per_page != 0 ? ceil($this->total_items / $this->items_per_page) : 0;
+        $total_pages = $this->items_per_page != 0 ? ceil($this->total_items / $this->items_per_page) : 0;
 
-        if ($this->total_pages <= 1) {
+        if ($total_pages <= 1) {
             $this->pages = [];
 
             return $this->pages;
@@ -634,61 +620,61 @@ class Pagination
 
         $pages = [];
         $this->pages = [];
-        $this->prev_page = $this->page - 1;
-        $this->next_page = $this->page + 1;
+        $prev_page = $this->page - 1;
+        $next_page = $this->page + 1;
 
-        $this->prev_page = $this->prev_page > 0 ? $this->prev_page : 0;
-        $this->next_page = $this->next_page <= $this->total_pages ? $this->next_page : 0;
-        $this->first_page = 1;
-        $this->last_page = $this->total_pages;
+        $prev_page = $prev_page > 0 ? $prev_page : 0;
+        $next_page = $next_page <= $total_pages ? $next_page : 0;
+        $first_page = 1;
+        $last_page = $total_pages;
 
-        $this->start_offset = ($this->page - $this->pages_around_active) > 0 ? $this->page - $this->pages_around_active : $this->first_page;
-        $this->end_offset = ($this->page + $this->pages_around_active) < $this->total_pages ? $this->page + $this->pages_around_active : $this->last_page;
+        $start_offset = ($this->page - $this->pages_around_active) > 0 ? $this->page - $this->pages_around_active : $first_page;
+        $end_offset = ($this->page + $this->pages_around_active) < $total_pages ? $this->page + $this->pages_around_active : $last_page;
 
-        if ((($this->pages_before_separator * 2) + $this->pages_before_separator) >= $this->last_page) {
+        if ((($this->pages_before_separator * 2) + $this->pages_before_separator) >= $last_page) {
             $this->hide_separator = true;
         }
 
         if (!$this->hide_previous) {
-            if ($this->prev_page) {
-                $this->pages[] = $this->pageArray($this->prev_page, $this->previous_text, 'prev');
+            if ($prev_page) {
+                $this->pages[] = $this->pageArray($prev_page, $this->previous_text, 'prev');
             }
         }
 
-        if ($this->start_offset >= $this->pages_before_separator) {
+        if ($start_offset >= $this->pages_before_separator) {
             for ($i = 1; $i <= $this->pages_before_separator; $i++) {
                 $this->pages[] = $this->pageArray($i, $this->pageText($i));
                 $pages[] = $i;
             }
 
-            if (!$this->hide_separator) {
+            if (!$this->hide_separator && $start_offset != $this->pages_before_separator && $start_offset != ($this->pages_before_separator + 1)) {
                 $this->pages[] = $this->pageArray(null, $this->separator, 'separator');
             }
         }
 
-        for ($i = $this->start_offset; $i <= $this->end_offset; $i++) {
+        for ($i = $start_offset; $i <= $end_offset; $i++) {
             if (!in_array($i, $pages)) {
                 $this->pages[] = $this->pageArray($i, $this->pageText($i));
             }
         }
 
-        if ($this->end_offset <= ($this->last_page - $this->pages_before_separator)) {
+        if ($end_offset <= ($last_page - $this->pages_before_separator)) {
             if (!$this->hide_separator) {
                 $this->pages[] = $this->pageArray(null, $this->separator, 'separator');
             }
 
-            for ($i = ($this->last_page - ($this->pages_before_separator - 1)); $i <= $this->last_page; $i++) {
+            for ($i = ($last_page - ($this->pages_before_separator - 1)); $i <= $last_page; $i++) {
                 $this->pages[] = $this->pageArray($i, $this->pageText($i));
             }
         }
 
-        if ($i == $this->last_page) {
+        if ($i == $last_page) {
             $this->pages[] = $this->pageArray($i, $this->pageText($i));
         }
 
         if (!$this->hide_next) {
-            if ($this->next_page) {
-                $this->pages[] = $this->pageArray($this->next_page, $this->next_text, 'next');
+            if ($next_page) {
+                $this->pages[] = $this->pageArray($next_page, $this->next_text, 'next');
             }
         }
 
@@ -766,9 +752,7 @@ class Pagination
         $output .= '</nav>';
         $output .= "\r\n";
 
-        $this->pagination = $output;
-
-        return $this->pagination;
+        return $output;
     }
 
     /**
