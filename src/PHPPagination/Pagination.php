@@ -312,6 +312,20 @@ class Pagination
     }
 
     /**
+     * Sets the show separator flag to true.
+     *
+     * Makes the separator blocks visible.
+     * 
+     * @return PHPagination
+     */
+    public function showSeparator()
+    {
+        $this->hide_separator = false;
+
+        return $this;
+    }
+
+    /**
      * Sets the show separator flag to false.
      * 
      * Hides the separator blocks.
